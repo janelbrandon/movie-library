@@ -3,26 +3,13 @@ const express = require('express');
 let routes = function (Movie) {
     let movieRouter = express.Router();
 
-    movieRouter.route('/')
-        .post(function (req, res) {
-            let movie = new Movie(req.body);
-            movie.save();
-            res.status(201).send(movie);
-        })
-        .get(function (req, res) {
-            let query = {};
-            if (req.query.genre) {
-                query.genre = req.query.genre;
-            }
+    // The movieController defines post and get for the route /api/movies
+    let movieController = require('../controllers/movieController');
 
-            Movie.find(query, function (err, movies) {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    res.json(movies);
-                }
-            });
-        });
+    movieRouter.route('/')
+        .post(movieController.post)
+        .get(movieController.get);
+
 
     movieRouter.route('/:movieId')
         .get(function (req, res) {

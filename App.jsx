@@ -1,15 +1,20 @@
 const express = require('express'),
     mongoose = require('mongoose'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    env = require('dotenv').config();
 
 // Connect to database
 let db;
+let host = process.env.HOST || 'localhost';
+let dbName = process.env.DB_NAME || 'movieAPI';
+let connectString = `mongodb://${host}/${dbName}`;
+
 if (process.env.ENV == 'test') {
-    db = mongoose.connect('mongodb://localhost/movieAPI_test', { useNewUrlParser: true });
+    db = mongoose.connect(`${connectString}_test`, { useNewUrlParser: true });
     console.log("Connected to db");
 }
 else {
-    db = mongoose.connect('mongodb://localhost/movieAPI', { useNewUrlParser: true });
+    db = mongoose.connect(connectString, { useNewUrlParser: true });
     console.log("Connected to db");
 }
 
