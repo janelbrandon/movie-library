@@ -8,18 +8,32 @@ let movieController = function (Movie) {
     };
 
     let get = function (req, res) {
-        let query = {};
-        if (req.query.genre) {
-            query.genre = req.query.genre;
-        }
-
-        Movie.find(query, function (err, movies) {
-            if (err) {
-                res.status(500).send(err);
-            } else {
-                res.json(movies);
+        // If we have req params - return just that movie
+        if (req.params.movieId) {
+            Movie.findById(req.params.movieId, function (err, movie) {
+                if (err) {
+                    res.status(500).send(err);
+                } else if (movie) {
+                    res.json(movie);
+                } else {
+                    res.status(404).send('Movie not found');
+                }
+            });
+        } else {
+            // Return a list of all movies
+            let query = {};
+            if (req.query.genre) {
+                query.genre = req.query.genre;
             }
-        });
+
+            Movie.find(query, function (err, movies) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.json(movies);
+                }
+            });
+        }
     };
     return {
         post: post,

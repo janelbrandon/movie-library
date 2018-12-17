@@ -12,17 +12,7 @@ let routes = function (Movie) {
 
 
     movieRouter.route('/:movieId')
-        .get(function (req, res) {
-            Movie.findById(req.params.movieId, function (err, movie) {
-                if (err) {
-                    res.status(500).send(err);
-                } else if (movie) {
-                    res.json(movie);
-                } else {
-                    res.status(404).send('Movie not found');
-                }
-            });
-        });
+        .get(movieController.get);
 
     return movieRouter;
 };
