@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 let Movie = require('./models/movieModel');
 
 // Use the movieRouter for movie routes
-let movieRouter = require('./routes/movieRouter')(Movie);
+let movieRouter = require('./routes/movieRoutes')(Movie);
 app.use('/api/movies', movieRouter);
 
 // Send basic welcome message for root route

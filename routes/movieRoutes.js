@@ -4,7 +4,7 @@ let routes = function (Movie) {
     let movieRouter = express.Router();
 
     // The movieController defines post and get for the route /api/movies
-    let movieController = require('../controllers/movieController');
+    let movieController = require('../controllers/movieController')(Movie);
 
     movieRouter.route('/')
         .post(movieController.post)
