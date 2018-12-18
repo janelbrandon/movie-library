@@ -2,7 +2,7 @@
   "name": "movie-library",
   "version": "1.0.0",
   "description": "Backend for movie library app",
-  "main": "App.jsx",
+  "main": "app.js",
   "scripts": {
     "test": "mocha -R spec",
     "start": "npm start"
