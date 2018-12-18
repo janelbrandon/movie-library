@@ -2,23 +2,21 @@
 
 let movieController = function (Movie) {
     let post = function (req, res) {
-        let movie = new Movie(req.body);
-        movie.save();
-        res.status(201).send(movie);
+        if (req.body.title) {
+            let movie = new Movie(req.body);
+            movie.save();
+            res.status(201);
+            res.send(movie);
+        } else {
+            res.status(400);
+            res.send('Title is required');
+        }
     };
 
     let get = function (req, res) {
         // If we have req params - return just that movie
-        if (req.params.movieId) {
-            Movie.findById(req.params.movieId, function (err, movie) {
-                if (err) {
-                    res.status(500).send(err);
-                } else if (movie) {
-                    res.json(movie);
-                } else {
-                    res.status(404).send('Movie not found');
-                }
-            });
+        if (req.movie) {
+            res.json(req.movie);
         } else {
             // Return a list of all movies
             let query = {};
@@ -35,9 +33,21 @@ let movieController = function (Movie) {
             });
         }
     };
+
+    let deleteFunction = function (req, res) {
+        req.movie.remove(function (remErr) {
+            if (remErr)
+                res.status(500).send(remErr);
+            else {
+                res.status(204).send('Removed');
+            }
+        });
+    };
+
     return {
         post: post,
-        get: get
+        get: get,
+        delete: deleteFunction
     };
 }
 

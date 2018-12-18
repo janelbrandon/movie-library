@@ -10,12 +10,13 @@ let dbName = process.env.DB_NAME || 'movieAPI';
 let connectString = `mongodb://${host}/${dbName}`;
 
 if (process.env.ENV == 'test') {
-    db = mongoose.connect(`${connectString}_test`, { useNewUrlParser: true });
-    console.log("Connected to db");
+    connectString += '_test';
+    db = mongoose.connect(connectString, { useNewUrlParser: true });
+    console.log(`Connected to db at ${connectString}`);
 }
 else {
     db = mongoose.connect(connectString, { useNewUrlParser: true });
-    console.log("Connected to db");
+    console.log(`Connected to db at ${connectString}`);
 }
 
 
